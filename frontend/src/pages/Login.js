@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header';
 import Heading from '../components/Heading';
 import InputBox from '../components/InputBox';
@@ -10,8 +10,31 @@ import Image from '../components/Image';
 import SignupButton from '../components/SignupButton';
 import AuthenticationLink from '../components/AuthenticationLink';
 import { Link } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
+import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 
 const Login = () => {
+  const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const [error, setError] = useState({
+    email: '',
+    password: '',
+  });
+  const handleForm = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setError({ ...error, [name]: '' });
+  };
+  const handleClick = () => {
+    if (formData.email == '') {
+      setError({ ...error, email: 'Email is Required' });
+    } else if (formData.password == '') {
+      setError({ ...error, password: 'Password is Required' });
+    }
+  };
   return (
     <>
       <Grid container spacing={2}>
@@ -33,10 +56,46 @@ const Login = () => {
                 </Link>
               </Header>
               <div className="inputBoxContainer">
-                <InputBox InputField={inputFieldCss} label="Email Address" />
-                <InputBox InputField={inputFieldCss} label="Password" />
+                <InputBox
+                  onChange={handleForm}
+                  name="email"
+                  type="email"
+                  InputField={inputFieldCss}
+                  label="Email Address"
+                />
+                {error.email && (
+                  <Alert className="error" variant="filled" severity="error">
+                    {error.email}
+                  </Alert>
+                )}
+                <div style={{ position: 'relative' }}>
+                  <InputBox
+                    onChange={handleForm}
+                    name="password"
+                    type={show ? 'text' : 'password'}
+                    InputField={inputFieldCss}
+                    label="Password"
+                  />
+                  {show ? (
+                    <BsFillEyeFill
+                      onClick={() => setShow(false)}
+                      className="eyeicon2"
+                    />
+                  ) : (
+                    <BsFillEyeSlashFill
+                      onClick={() => setShow(true)}
+                      className="eyeicon2"
+                    />
+                  )}
+                </div>
+                {error.password && (
+                  <Alert className="error" variant="filled" severity="error">
+                    {error.password}
+                  </Alert>
+                )}
 
                 <SignupButton
+                  onClick={handleClick}
                   btntitle="Login to Continue"
                   rbtn={commonButton}
                 />

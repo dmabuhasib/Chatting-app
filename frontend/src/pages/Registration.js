@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../components/Header';
 import Heading from '../components/Heading';
 import InputBox from '../components/InputBox';
@@ -9,8 +9,35 @@ import Button from '@mui/material/Button';
 import Image from '../components/Image';
 import SignupButton from '../components/SignupButton';
 import AuthenticationLink from '../components/AuthenticationLink';
+import Alert from '@mui/material/Alert';
+import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 
 const Registration = () => {
+  const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    fullName: '',
+    password: '',
+  });
+  const [error, setError] = useState({
+    email: '',
+    fullName: '',
+    password: '',
+  });
+  const handleForm = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setError({ ...error, [name]: '' });
+  };
+  const handleClick = () => {
+    if (formData.email == '') {
+      setError({ ...error, email: 'Email is Required' });
+    } else if (formData.fullName == '') {
+      setError({ ...error, fullName: 'Name is Required' });
+    } else if (formData.password == '') {
+      setError({ ...error, password: 'Password is Required' });
+    }
+  };
   return (
     <>
       <Grid container spacing={2}>
@@ -28,11 +55,61 @@ const Registration = () => {
                 </p>
               </Header>
               <div className="inputBoxContainer">
-                <InputBox InputField={inputFieldCss} label="Email Address" />
-                <InputBox InputField={inputFieldCss} label="Ful name" />
-                <InputBox InputField={inputFieldCss} label="Password" />
+                <InputBox
+                  name="email"
+                  onChange={handleForm}
+                  type="email"
+                  InputField={inputFieldCss}
+                  label="Email Address"
+                />
+                {error.email && (
+                  <Alert className="error" variant="filled" severity="error">
+                    {error.email}
+                  </Alert>
+                )}
+                <InputBox
+                  name="fullName"
+                  onChange={handleForm}
+                  type="text"
+                  InputField={inputFieldCss}
+                  label="Full name"
+                />
+                {error.fullName && (
+                  <Alert className="error" variant="filled" severity="error">
+                    {error.fullName}
+                  </Alert>
+                )}
+                <div style={{ position: 'relative' }}>
+                  <InputBox
+                    name="password"
+                    onChange={handleForm}
+                    type={show ? 'text' : 'password'}
+                    InputField={inputFieldCss}
+                    label="Password"
+                  />
+                  {show ? (
+                    <BsFillEyeFill
+                      onClick={() => setShow(false)}
+                      className="eyeicon"
+                    />
+                  ) : (
+                    <BsFillEyeSlashFill
+                      onClick={() => setShow(true)}
+                      className="eyeicon"
+                    />
+                  )}
+                </div>
+                {error.password && (
+                  <Alert className="error" variant="filled" severity="error">
+                    {error.password}
+                  </Alert>
+                )}
 
-                <SignupButton btntitle="Sign up" rbtn={commonButton} />
+                <SignupButton
+                  onClick={handleClick}
+                  btntitle="Sign up"
+                  rbtn={commonButton}
+                />
                 <AuthenticationLink
                   className="authentication_htitle"
                   authtitle="Already  have an account ? "

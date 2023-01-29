@@ -60,3 +60,22 @@
 .googleimg {
   margin-top: 30px;
 }
+.error {
+  width: 336px;
+}
+.eyeicon {
+  position: absolute;
+  right: 146px;
+  bottom: 22px;
+  font-size: 28px;
+  color: #888383d8;
+  cursor: pointer;
+}
+.eyeicon2 {
+  position: absolute;
+  right: 10px;
+  bottom: 22px;
+  font-size: 28px;
+  color: #888383d8;
+  cursor: pointer;
+}
