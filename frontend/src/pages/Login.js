@@ -9,35 +9,42 @@ import Button from '@mui/material/Button';
 import Image from '../components/Image';
 import SignupButton from '../components/SignupButton';
 import AuthenticationLink from '../components/AuthenticationLink';
+import { Link } from 'react-router-dom';
 
-const Registration = () => {
+const Login = () => {
   return (
     <>
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <div className="registration-leftside">
+          <div className="login-leftside">
             <div>
               <Header>
                 <Heading
                   className="registration_heading"
                   as="h2"
-                  title="Get started with easily register"
+                  title="Login to your account!"
                 />
-                <p className="registration_subheading">
-                  Free register and you can enjoy it
-                </p>
+                <Link to="/">
+                  <Image
+                    className="googleimg"
+                    imgsrc="assets/google.png"
+                    imgalt="googleimg"
+                  />
+                </Link>
               </Header>
               <div className="inputBoxContainer">
                 <InputBox InputField={inputFieldCss} label="Email Address" />
-                <InputBox InputField={inputFieldCss} label="Ful name" />
                 <InputBox InputField={inputFieldCss} label="Password" />
 
-                <SignupButton btntitle="Sign up" rbtn={commonButton} />
+                <SignupButton
+                  btntitle="Login to Continue"
+                  rbtn={commonButton}
+                />
                 <AuthenticationLink
-                  className="authentication_htitle"
-                  authtitle="Already  have an account ? "
-                  linkpath="/login"
-                  authlink="Sign In"
+                  className="authentication_htitle2"
+                  authtitle="Don’t have an account ? "
+                  linkpath="/"
+                  authlink=" Sign up"
                 />
               </div>
             </div>
@@ -47,8 +54,8 @@ const Registration = () => {
         <Grid item xs={6}>
           <Image
             className="registrationimg"
-            imgsrc="assets/registrationimg.png"
-            imgalt="registrationimg"
+            imgsrc="assets/login-img.png"
+            imgalt="loginimg"
           />
         </Grid>
       </Grid>
@@ -57,14 +64,14 @@ const Registration = () => {
 };
 
 const inputFieldCss = styled(TextField)({
-  width: '368.09px',
-  marginTop: '8%',
+  width: '360.09px',
+  marginTop: '10%',
   display: 'flex',
   fontSize: '30px',
   '& label': {
     fontSize: '18px',
     opacity: '0.7',
-    marginLeft: '6%',
+
     marginTop: '2%',
     fontWeight: 400,
     color: '#11175D',
@@ -79,30 +86,42 @@ const inputFieldCss = styled(TextField)({
   },
   '& .MuiOutlinedInput-root': {
     color: '#11175D',
-    padding: '5px',
+    paddingTop: '5px',
+    borderRadius: '0px',
+    paddingBottom: '5px',
     fontSize: '20.64px',
     fontWeight: 600,
     fontFamily: 'Nunito, sans-serif',
-    borderRadius: '15px',
     '& fieldset': {
       opacity: '0.3',
-      border: '1.72005px solid #11175D',
+      borderBottom: '2.72005px solid #11175D',
       paddingLeft: '25px',
+      borderTop: 'none',
+      borderLeft: 'none',
+      borderRight: 'none',
     },
     '&:hover fieldset': {
-      borderColor: 'red',
+      color: 'red',
+      borderBottom: '2.72005px solid',
+      borderTop: 'none',
+      borderLeft: 'none',
+      borderRight: 'none',
     },
     '&.Mui-focused fieldset': {
+      borderTop: 'none',
+      borderLeft: 'none',
+      borderRight: 'none',
       borderColor: 'green',
+      borderBottom: '2.72005px solid green',
     },
   },
 });
 const commonButton = styled(Button)({
   width: '368.09px',
-  padding: '19px 12px',
+  padding: '26px 12px',
   border: '1px solid',
-  marginTop: '5%',
-  borderRadius: '86px',
+  marginTop: '10%',
+  borderRadius: '10px',
   lineHeight: 1.5,
   background: '#5F34F5',
   borderColor: '#0063cc',
@@ -121,4 +140,4 @@ const commonButton = styled(Button)({
   },
 });
 
-export default Registration;
+export default Login;
