@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Heading from '../components/Heading';
 import InputBox from '../components/InputBox';
@@ -11,8 +11,15 @@ import SignupButton from '../components/SignupButton';
 import AuthenticationLink from '../components/AuthenticationLink';
 import Alert from '@mui/material/Alert';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
+import { ToastContainer, toast } from 'react-toastify';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from 'firebase/auth';
 
 const Registration = () => {
+  const auth = getAuth();
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -29,13 +36,27 @@ const Registration = () => {
     setFormData({ ...formData, [name]: value });
     setError({ ...error, [name]: '' });
   };
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
     if (formData.email == '') {
       setError({ ...error, email: 'Email is Required' });
     } else if (formData.fullName == '') {
       setError({ ...error, fullName: 'Name is Required' });
     } else if (formData.password == '') {
       setError({ ...error, password: 'Password is Required' });
+    } else {
+      createUserWithEmailAndPassword(auth, formData.email, formData.password)
+        .then((userCredential) => {
+          sendEmailVerification(auth.currentUser).then(() => {
+            toast.success('Registration successfull. Please Check Your Email');
+          });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          if (errorCode.includes('auth/email-already-in-use')) {
+            setError({ ...error, email: 'Email Already use' });
+          }
+        });
     }
   };
   return (
@@ -104,7 +125,7 @@ const Registration = () => {
                     {error.password}
                   </Alert>
                 )}
-
+                <ToastContainer position="top-left" autoClose={3000} />
                 <SignupButton
                   onClick={handleClick}
                   btntitle="Sign up"
