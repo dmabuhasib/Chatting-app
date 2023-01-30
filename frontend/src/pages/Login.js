@@ -19,9 +19,13 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { activeUser } from './slices/UserSlice';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 const Login = () => {
   const auth = getAuth();
@@ -33,11 +37,15 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    fgp: '',
   });
   const [error, setError] = useState({
     email: '',
     password: '',
   });
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const handleForm = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -49,21 +57,27 @@ const Login = () => {
     } else if (formData.password == '') {
       setError({ ...error, password: 'Password is Required' });
     } else {
-      setLoader(true);
       signInWithEmailAndPassword(auth, formData.email, formData.password)
         .then((userCredential) => {
-          setLoader(false);
           dispatch(activeUser(userCredential.user));
           localStorage.setItem('userInfo', JSON.stringify(userCredential.user));
           if (userCredential.user.emailVerified) {
-            navigate('/home');
+            toast.success('Login Successfully');
+            setTimeout(() => {
+              navigate('/home');
+            }, 3000);
           } else {
             toast('Please Verify your email first and try again');
           }
         })
         .catch((error) => {
-          const errrCode = error.code;
-          const errorMessage = error.message;
+          const errorCode = error.code;
+          console.log(errorCode);
+          if (errorCode.includes('auth/wrong-password')) {
+            setError({ ...error, password: 'Your Password is Invalid' });
+          } else if (errorCode.includes('auth/user-not-found')) {
+            setError({ ...error, email: 'Your Email is Invalid' });
+          }
         });
     }
   };
@@ -71,6 +85,22 @@ const Login = () => {
     signInWithPopup(auth, provider).then((result) => {
       navigate('/home');
     });
+  };
+  const handleFgp = () => {
+    sendPasswordResetEmail(auth, formData.fgp)
+      .then(() => {
+        toast.success('Please check your Email and reset your password');
+        setTimeout(() => {
+          setOpen(false);
+        }, 4000);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        console.log(errorCode);
+        if (errorCode.includes('auth/user-not-found')) {
+          toast.error('Your email is invalid ! please try again');
+        }
+      });
   };
   return (
     <>
@@ -160,8 +190,39 @@ const Login = () => {
                   linkpath="/"
                   authlink=" Sign up"
                 />
+                <ForgotButton onClick={handleOpen}>
+                  Forgot Password
+                </ForgotButton>
               </div>
             </div>
+          </div>
+          <div>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Forgot Password
+                </Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <InputBox
+                    onChange={handleForm}
+                    name="fgp"
+                    type="email"
+                    InputField={inputFieldCss}
+                    label="Email"
+                  />
+                  <SignupButton
+                    onClick={handleFgp}
+                    btntitle="SEND EMAIL"
+                    rbtn={commonButton}
+                  />
+                </Typography>
+              </Box>
+            </Modal>
           </div>
         </Grid>
 
@@ -230,6 +291,14 @@ const inputFieldCss = styled(TextField)({
     },
   },
 });
+const ForgotButton = styled(Button)({
+  marginLeft: '100px',
+  fontSize: '12px',
+  color: '#ea6c00',
+  textDecoration: 'underline',
+  fontWeight:'bold',
+  fontFamily: `"Nunito", sans-serif`,
+});
 const commonButton = styled(Button)({
   width: '368.09px',
   padding: '26px 12px',
@@ -253,5 +322,16 @@ const commonButton = styled(Button)({
     boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
   },
 });
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 360,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 export default Login;
