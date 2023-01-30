@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import Image from '../components/Image';
 import SignupButton from '../components/SignupButton';
 import AuthenticationLink from '../components/AuthenticationLink';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import { Oval } from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,10 +20,13 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
+import { activeUser } from './slices/UserSlice';
 
 const Login = () => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -50,6 +53,8 @@ const Login = () => {
       signInWithEmailAndPassword(auth, formData.email, formData.password)
         .then((userCredential) => {
           setLoader(false);
+          dispatch(activeUser(userCredential.user));
+          localStorage.setItem('userInfo', JSON.stringify(userCredential.user));
           if (userCredential.user.emailVerified) {
             navigate('/home');
           } else {
