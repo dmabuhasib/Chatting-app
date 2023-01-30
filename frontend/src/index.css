@@ -66,7 +66,7 @@
 .eyeicon {
   position: absolute;
   right: 146px;
-  bottom: 22px;
+  bottom: 35px;
   font-size: 28px;
   color: #888383d8;
   cursor: pointer;
@@ -78,4 +78,11 @@
   font-size: 28px;
   color: #888383d8;
   cursor: pointer;
+}
+.progress{
+  width: 368px;
+  margin-bottom: 5px;
+}
+.register-loading{
+  margin-left: 138px;
 }

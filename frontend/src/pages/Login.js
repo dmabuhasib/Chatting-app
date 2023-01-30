@@ -9,12 +9,24 @@ import Button from '@mui/material/Button';
 import Image from '../components/Image';
 import SignupButton from '../components/SignupButton';
 import AuthenticationLink from '../components/AuthenticationLink';
-import { Link } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
+import { Oval } from 'react-loader-spinner';
+import { ToastContainer, toast } from 'react-toastify';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from 'firebase/auth';
 
 const Login = () => {
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -33,12 +45,33 @@ const Login = () => {
       setError({ ...error, email: 'Email is Required' });
     } else if (formData.password == '') {
       setError({ ...error, password: 'Password is Required' });
+    } else {
+      setLoader(true);
+      signInWithEmailAndPassword(auth, formData.email, formData.password)
+        .then((userCredential) => {
+          setLoader(false);
+          if (userCredential.user.emailVerified) {
+            navigate('/home');
+          } else {
+            toast('Please Verify your email first and try again');
+          }
+        })
+        .catch((error) => {
+          const errrCode = error.code;
+          const errorMessage = error.message;
+        });
     }
+  };
+  const handleGoogle = () => {
+    signInWithPopup(auth, provider).then((result) => {
+      navigate('/home');
+    });
   };
   return (
     <>
       <Grid container spacing={2}>
         <Grid item xs={6}>
+          <ToastContainer position="top-left" autoClose={3000} />
           <div className="login-leftside">
             <div>
               <Header>
@@ -47,13 +80,13 @@ const Login = () => {
                   as="h2"
                   title="Login to your account!"
                 />
-                <Link to="/">
-                  <Image
-                    className="googleimg"
-                    imgsrc="assets/google.png"
-                    imgalt="googleimg"
-                  />
-                </Link>
+
+                <Image
+                  onClick={handleGoogle}
+                  className="googleimg"
+                  imgsrc="assets/google.png"
+                  imgalt="googleimg"
+                />
               </Header>
               <div className="inputBoxContainer">
                 <InputBox
@@ -93,12 +126,29 @@ const Login = () => {
                     {error.password}
                   </Alert>
                 )}
+                {loader ? (
+                  <div className="register-loading">
+                    <Oval
+                      height={70}
+                      width={70}
+                      color="#5F34F5"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                      visible={true}
+                      ariaLabel="oval-loading"
+                      secondaryColor="#ddd"
+                      strokeWidth={2}
+                      strokeWidthSecondary={2}
+                    />
+                  </div>
+                ) : (
+                  <SignupButton
+                    onClick={handleClick}
+                    btntitle="Login to Continue"
+                    rbtn={commonButton}
+                  />
+                )}
 
-                <SignupButton
-                  onClick={handleClick}
-                  btntitle="Login to Continue"
-                  rbtn={commonButton}
-                />
                 <AuthenticationLink
                   className="authentication_htitle2"
                   authtitle="Don’t have an account ? "
