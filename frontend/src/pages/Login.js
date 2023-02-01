@@ -64,7 +64,7 @@ const Login = () => {
           if (userCredential.user.emailVerified) {
             toast.success('Login Successfully');
             setTimeout(() => {
-              navigate('/home');
+              navigate('/pechal');
             }, 3000);
           } else {
             toast('Please Verify your email first and try again');

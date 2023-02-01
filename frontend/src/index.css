@@ -89,3 +89,21 @@
 .forgot_button{
   margin-left:138px ;
 }
+.sidebar_box{
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  height: 100vh;
+}
+.sidebar{
+  width: 85%;
+  height: 97vh;
+  background: #5f35f5;
+  border-radius: 20px;
+  padding: 38px 43px;
+  box-sizing: border-box;
+}
+.profile_image_holder{
+  display: flex;
+  justify-content: center;
+}

@@ -3,6 +3,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { activeUser } from './slices/UserSlice';
+import Grid from '@mui/material/Grid';
 
 const Home = () => {
   const auth = getAuth();
@@ -25,8 +26,22 @@ const Home = () => {
   };
   return (
     <>
-      <div>Home</div>
-      <button onClick={handleLogOut}>Log Out</button>
+      {/* <div>Home</div> */}
+    
+       
+      <Grid item xs={4}>
+        <h1>xs=4 home</h1>
+        </Grid>
+        <Grid item xs={3}>
+        <h1>xs=3 home</h1>
+        </Grid>
+        <Grid item xs={3}>
+        <h1>xs=3 home</h1>
+        </Grid>
+  
+
+   
+      {/* <button onClick={handleLogOut}>Log Out</button> */}
     </>
   );
 };
