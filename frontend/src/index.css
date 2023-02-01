@@ -79,23 +79,23 @@
   color: #888383d8;
   cursor: pointer;
 }
-.progress{
+.progress {
   width: 368px;
   margin-bottom: 5px;
 }
-.register-loading{
+.register-loading {
   margin-left: 138px;
 }
-.forgot_button{
-  margin-left:138px ;
+.forgot_button {
+  margin-left: 138px;
 }
-.sidebar_box{
+.sidebar_box {
   display: flex;
   align-items: center;
   justify-content: end;
   height: 100vh;
 }
-.sidebar{
+.sidebar {
   width: 85%;
   height: 97vh;
   background: #5f35f5;
@@ -103,7 +103,132 @@
   padding: 38px 43px;
   box-sizing: border-box;
 }
-.profile_image_holder{
+.profile_image_holder {
   display: flex;
   justify-content: center;
+}
+.icon {
+  font-size: 46px;
+  color: #fff;
+}
+.icon_holder {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 50%;
+  margin-top: 10px;
+}
+.logout_icon {
+  text-align: center;
+  margin-top: 100%;
+}
+/* Group Section Style here */
+.group_holder {
+  background: #fff;
+  height: 275px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 19px 3px rgb(0 0 0 / 20%);
+  margin-top: 12px;
+  padding: 13px 20px;
+  overflow-y: scroll;
+  margin-bottom: 30px;
+}
+
+/* Friend Request Section Style here*/
+
+.frindRequest_holder {
+  background: #fff;
+  height: 275px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 19px 3px rgb(0 0 0 / 20%);
+  margin-top: 12px;
+  padding: 13px 20px;
+  overflow-y: scroll;
+}
+
+.title_holder {
+  display: flex;
+  justify-content: space-between;
+}
+
+.up_title_style {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.section_box {
+  border-bottom: 1px solid #ddd;
+}
+.section_box:last-child {
+  border-bottom: none;
+}
+.up_title_style h3 {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Nunito', sans-serif;
+}
+.up_title_style button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  color: #fff;
+  background: #5f35f5;
+}
+
+.img_style {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+.title_box {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+  padding-bottom: 18px;
+  margin-top: 5px;
+}
+.title_inner {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80%;
+}
+.title_style h3 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+.title_style p {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4d4d4d;
+  opacity: 0.7;
+  font-family: 'Nunito', sans-serif;
+}
+
+.btn_style button {
+  font-size: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  color: #fff;
+  background: #5f35f5;
+}
+.rejectBtn_style {
+  font-size: 14px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  color: #fff;
+  background: #5f35f5;
+  margin-left: 10px;
 }
