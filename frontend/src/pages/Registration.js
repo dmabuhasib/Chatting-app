@@ -18,10 +18,13 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { getDatabase, ref, set } from 'firebase/database';
 
 const Registration = () => {
+  const db = getDatabase();
   const auth = getAuth();
   let [pro, setPro] = useState(0);
   const navigate = useNavigate();
@@ -105,25 +108,38 @@ const Registration = () => {
 
     let expression =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (formData.email == '') {
+    if (formData.email === '') {
       setError({ ...error, email: 'Email is Required' });
     } else if (!expression.test(formData.email)) {
       setError({ ...error, email: 'Valid Email Required' });
-    } else if (formData.fullName == '') {
+    } else if (formData.fullName === '') {
       setError({ ...error, fullName: 'Name is Required' });
-    } else if (formData.password == '') {
+    } else if (formData.password === '') {
       setError({ ...error, password: 'Password is Required' });
     } else {
       setLoader(true);
       createUserWithEmailAndPassword(auth, formData.email, formData.password)
         .then((userCredential) => {
-          sendEmailVerification(auth.currentUser).then(() => {
-            setLoader(false);
-            toast.success('Registration successfull. Please Check Your Email');
-            setTimeout(() => {
-              navigate('/login');
-            }, 3000);
-          });
+          updateProfile(auth.currentUser, {
+            displayName: formData.fullName,
+          })
+            .then(() => {
+              sendEmailVerification(auth.currentUser).then(() => {
+                set(ref(db, 'users/' + userCredential.user.uid), {
+                  displayName: userCredential.user.displayName,
+                  email: userCredential.user.email,
+                }).then(() => {
+                  setLoader(false);
+                  toast.success(
+                    'Registration successfull. Please Check Your Email'
+                  );
+                  setTimeout(() => {
+                    navigate('/login');
+                  }, 3000);
+                });
+              });
+            })
+            .catch((error) => {});
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -206,7 +222,7 @@ const Registration = () => {
                 )}
                 <ToastContainer position="top-left" autoClose={3000} />
                 {loader ? (
-                  <div className='register-loading' >
+                  <div className="register-loading">
                     <Oval
                       height={70}
                       width={70}

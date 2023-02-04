@@ -110,18 +110,23 @@
 .icon {
   font-size: 46px;
   color: #fff;
+  cursor: pointer;
+}
+.icon:hover{
+  color: #ff4907;
 }
 .icon_holder {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 50%;
+  height: 50%; 
   margin-top: 10px;
 }
 .logout_icon {
   text-align: center;
   margin-top: 100%;
+  cursor: pointer;
 }
 /* Group Section Style here */
 .group_holder {
@@ -231,4 +236,22 @@
   color: #fff;
   background: #5f35f5;
   margin-left: 10px;
+}
+.user_profile_name{
+  color: #fff;
+  text-align: center;
+  font-family: "Nunito", sans-serif;
+  padding-top: 5px;
+}
+.img-preview{
+  width: 90px !important;
+  height: 90px !important;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.upload_image{
+  width: 90px;
+  height: 90px;
+  overflow: hidden;
+  border-radius: 50%;
 }
