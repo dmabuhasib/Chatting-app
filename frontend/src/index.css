@@ -224,6 +224,7 @@
   padding: 5px 10px;
   color: #fff;
   background: #5f35f5;
+  margin-left: 20px;
 }
 .rejectBtn_style {
   font-size: 14px;
@@ -255,3 +256,9 @@
   overflow: hidden;
   border-radius: 50%;
 }
+/* .upload_image2{
+  width: 70px;
+  height: 70px;
+  overflow: hidden;
+  border-radius: 50%;
+} */

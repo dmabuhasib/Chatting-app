@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CommonSection = (
-  { imgSrc, imgAlt, title, subTitle, btnTitle, btnTitle2 },
+  { imgSrc, imgAlt, title, subTitle, btnTitle, btnTitle2, onClick, onClick2 },
   props
 ) => {
   return (
@@ -13,13 +13,13 @@ const CommonSection = (
         <div className="title_inner">
           <div className="title_style">
             <h3>{title}</h3>
-            <p>{subTitle}</p>
+            <p style={{width:'110px', overflow:'hidden'}}>{subTitle}</p>
           </div>
           {btnTitle? (
 
           <div className="btn_style">
-            <button>{btnTitle}</button>
-            {btnTitle2? <button className="rejectBtn_style">{btnTitle2}</button> : null}
+            <button onClick={onClick}>{btnTitle}</button>
+            {btnTitle2? <button onClick={onClick2} className="rejectBtn_style">{btnTitle2}</button> : null}
           </div>
           ): null}
           <>

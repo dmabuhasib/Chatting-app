@@ -46,6 +46,7 @@ const RootLayout = () => {
   // crop start
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState('#');
+  const [profile, setProfile] = useState('');
   const [cropper, setCropper] = useState();
   const onChange = (e) => {
     e.preventDefault();
@@ -78,6 +79,9 @@ const RootLayout = () => {
           console.log('File available at', downloadURL);
           updateProfile(auth.currentUser, {
             photoURL: downloadURL,
+          }).then(() => {
+            dispatch(activeUser(auth.currentUser));
+            localStorage.setItem('userInfo', JSON.stringify(auth.currentUser));
           });
         });
       });
@@ -90,6 +94,7 @@ const RootLayout = () => {
     if (!data.userdata.userInfo) {
       navigate('/login');
     }
+    setProfile(data.userdata.userInfo.photoURL);
   }, [data, navigate]);
 
   const handleLogOut = () => {
@@ -107,12 +112,21 @@ const RootLayout = () => {
           <div className="sidebar_box">
             <div className="sidebar">
               <div className="profile_image_holder">
-                <Image
-                className="upload_image"
-                  onClick={handleOpen}
-                  imgsrc={auth.currentUser.photoURL}
-                  imgalt="profile_imgae"
-                />
+                {data.userdata.userInfo.photoURL ? (
+                  <Image
+                    className="upload_image"
+                    onClick={handleOpen}
+                    imgsrc={profile}
+                    imgalt="profile_imgae"
+                  />
+                ) : (
+                  <Image
+                    className="upload_image"
+                    onClick={handleOpen}
+                    imgsrc='assets/profile.png'
+                    imgalt="profile_imgae"
+                  />
+                )}
               </div>
               <div className="user_profile_name">
                 <h5>{data.userdata.userInfo.displayName}</h5>
@@ -140,9 +154,10 @@ const RootLayout = () => {
                 <div className="profile_image_holder">
                   {image ? (
                     <div className="img-preview"></div>
-                  ) : auth.currentUser.photoURL ? (
-                    <Image className="upload_image"
-                      imgsrc={auth.currentUser.photoURL}
+                  ) : data.userdata.userInfo.photoURL ? (
+                    <Image
+                      className="upload_image"
+                      imgsrc={data.userdata.userInfo.photoURL}
                     />
                   ) : (
                     <Image imgsrc="/assets/profile.png" />
