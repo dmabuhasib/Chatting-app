@@ -74,7 +74,7 @@ const Frinds = () => {
         )
       ):
       <Alert variant="filled" severity="info">
-          You have no blocked user !
+          You have no Friends !
         </Alert>}
     </div>
   );

@@ -35,10 +35,8 @@ const UserList = () => {
   const handleFriendRequest = (item) => {
     set(push(ref(db, 'friendRequest')), {
       senderName: data.userdata.userInfo.displayName,
-      senderEmail:data.userdata.userInfo.email,
       senderId: data.userdata.userInfo.uid,
       receiverName: item.displayName,
-      receiverEmail:item.email,
       receiverId: item.id,
     });
   };
