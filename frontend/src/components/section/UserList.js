@@ -7,7 +7,9 @@ const UserList = () => {
   const db = getDatabase();
   const [userList, setUserList] = useState([]);
   const [freq, setFreq] = useState([]);
+  const [friend, setFriend] = useState([]);
   const data = useSelector((state) => state);
+
   useEffect(() => {
     const userRef = ref(db, 'users');
     onValue(userRef, (snapshot) => {
@@ -21,6 +23,16 @@ const UserList = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const friendRequestRef = ref(db, 'friends');
+    onValue(friendRequestRef, (snapshot) => {
+      const arr = [];
+      snapshot.forEach((item) => {
+        arr.push(item.val().receiverId + item.val().senderId);
+      });
+      setFriend(arr);
+    });
+  }, []);
   useEffect(() => {
     const friendRequestRef = ref(db, 'friendRequest');
     onValue(friendRequestRef, (snapshot) => {
@@ -46,8 +58,16 @@ const UserList = () => {
         <h3>User List</h3>
       </div>
       {userList.map((item) =>
-        freq.includes(item.id + data.userdata.userInfo.uid) ||
-        freq.includes(data.userdata.userInfo.uid + item.id) ? (
+        friend.includes(item.id + data.userdata.userInfo.uid) ||
+        friend.includes(data.userdata.userInfo.uid + item.id) ? (
+          <CommonSection
+            imgSrc="/assets/userimg.png"
+            title={item.displayName}
+            subTitle={item.email}
+            btnTitle="Friend"
+          />
+        ) : freq.includes(item.id + data.userdata.userInfo.uid) ||
+          freq.includes(data.userdata.userInfo.uid + item.id) ? (
           <CommonSection
             imgSrc="/assets/userimg.png"
             title={item.displayName}

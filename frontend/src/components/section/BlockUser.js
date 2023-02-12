@@ -67,7 +67,7 @@ const BlockUser = () => {
               onClick={() => handleUnblock(item)}
               btnTitle="blockBy"
             />
-          ) : item.blockId ? (
+          ) : (
             <CommonSection
               imgSrc="/assets/userimg.png"
               title={item.block}
@@ -75,9 +75,7 @@ const BlockUser = () => {
               onClick={() => handleUnblock(item)}
               btnTitle="unblock"
             />
-          ) : (
-            <p>hello</p>
-          )
+          ) 
         )
       ) : (
         <Alert variant="filled" severity="info">
