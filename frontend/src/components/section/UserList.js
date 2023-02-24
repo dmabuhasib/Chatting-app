@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import CommonSection from './CommonSection';
 import { getDatabase, onValue, ref, set, push } from 'firebase/database';
 import { useSelector } from 'react-redux';
+import InputBox from '../InputBox';
+import { TextField, styled } from '@mui/material';
 
 const UserList = () => {
   const db = getDatabase();
@@ -57,6 +59,8 @@ const UserList = () => {
       <div className="up_title_style">
         <h3>User List</h3>
       </div>
+      <InputBox InputField={inputFieldCss} placeholder="Search User" />
+
       {userList.map((item) =>
         friend.includes(item.id + data.userdata.userInfo.uid) ||
         friend.includes(data.userdata.userInfo.uid + item.id) ? (
@@ -89,3 +93,39 @@ const UserList = () => {
 };
 
 export default UserList;
+
+const inputFieldCss = styled(TextField)({
+  width: '100%',
+  display: 'flex',
+  fontSize: '30px',
+  marginBottom:'7%',
+  '& label': {
+    opacity: '0.7',
+    fontSize:'12px',
+    fontWeight: 400,
+    color: '#11175D',
+    fontFamily: 'Nunito, sans-serif',
+  },
+  '& label.Mui-focused': {
+    color: 'black',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: 'green',
+  },
+  '& .MuiOutlinedInput-root': {
+    color: '#11175D',
+    height:'40px',
+    fontFamily: 'Nunito, sans-serif',
+    borderRadius: '15px',
+    '& fieldset': {
+      opacity: '0.3',
+      border: '1.72005px solid #11175D',
+    },
+    '&:hover fieldset': {
+      borderColor: 'red',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: 'blue',
+    },
+  },
+});

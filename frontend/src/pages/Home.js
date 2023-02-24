@@ -16,7 +16,6 @@ const Home = () => {
     <>
       <Grid item xs={4}>
         <GroupSection  />
-
         <FriendRequest  />
       </Grid>
 

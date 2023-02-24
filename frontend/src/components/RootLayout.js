@@ -95,7 +95,7 @@ const RootLayout = () => {
       navigate('/login');
     }
     setProfile(data.userdata.userInfo.photoURL);
-  }, [data, navigate]);
+  }, [data, navigate,image]);
 
   const handleLogOut = () => {
     signOut(auth).then(() => {

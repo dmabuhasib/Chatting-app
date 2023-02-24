@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CommonSection = (
-  { imgSrc, imgAlt, title, subTitle, btnTitle, btnTitle2, onClick, onClick2 },
+  { imgSrc, imgAlt, title, subTitle, btnTitle, btnTitle2, onClick, onClick2, style, style2 },
   props
 ) => {
   return (
@@ -18,8 +18,8 @@ const CommonSection = (
           {btnTitle? (
 
           <div className="btn_style">
-            <button onClick={onClick}>{btnTitle}</button>
-            {btnTitle2? <button onClick={onClick2} className="rejectBtn_style">{btnTitle2}</button> : null}
+            <button style={style2}    onClick={onClick}>{btnTitle}</button>
+            {btnTitle2? <button style={style} onClick={onClick2} className="rejectBtn_style">{btnTitle2}</button> : null}
           </div>
           ): null}
           <>

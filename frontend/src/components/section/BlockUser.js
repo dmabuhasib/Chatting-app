@@ -16,7 +16,6 @@ const BlockUser = () => {
   const [blockList, setBlockList] = useState([]);
   const data = useSelector((state) => state);
 
-  console.log(data.userdata.userInfo.uid);
   useEffect(() => {
     const blockListRef = ref(db, 'block');
     onValue(blockListRef, (snapshot) => {
@@ -75,7 +74,7 @@ const BlockUser = () => {
               onClick={() => handleUnblock(item)}
               btnTitle="unblock"
             />
-          ) 
+          )
         )
       ) : (
         <Alert variant="filled" severity="info">

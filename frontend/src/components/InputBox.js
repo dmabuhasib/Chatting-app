@@ -4,6 +4,7 @@ const InputBox = (props) => {
   return (
     <>
       <props.InputField
+      placeholder={props.placeholder}
       onChange={props.onChange}
       name={props.name}
       type={props.type}
