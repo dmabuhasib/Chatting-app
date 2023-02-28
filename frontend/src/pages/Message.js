@@ -1,17 +1,19 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
+import Frinds from '../components/section/Frinds';
+import MyGroupList from '../components/section/MyGroupList';
+import Chat from '../components/section/Chat';
 
 const Message = () => {
   return (
     <>
       <Grid item xs={4}>
-        <h1>4 message</h1>
+        <MyGroupList />
+        <Frinds />
       </Grid>
-      <Grid item xs={3}>
-        <h1>3 message</h1>
-      </Grid>
-      <Grid item xs={3}>
-        <h1>3 message</h1>
+
+      <Grid item xs={6}>
+        <Chat />
       </Grid>
     </>
   );

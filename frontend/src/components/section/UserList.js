@@ -10,8 +10,8 @@ const UserList = () => {
   const [userList, setUserList] = useState([]);
   const [freq, setFreq] = useState([]);
   const [friend, setFriend] = useState([]);
+  const [searchList, setSearchList] = useState([]);
   const data = useSelector((state) => state);
-
   useEffect(() => {
     const userRef = ref(db, 'users');
     onValue(userRef, (snapshot) => {
@@ -54,40 +54,82 @@ const UserList = () => {
       receiverId: item.id,
     });
   };
+  const handleSearch = (e) => {
+    const arr = [];
+    userList.filter((item) => {
+      if (
+        item.displayName.toLowerCase().includes(e.target.value.toLowerCase())
+      ) {
+        arr.push(item);
+      }
+    });
+    setSearchList(arr);
+  };
   return (
     <div className="group_holder">
       <div className="up_title_style">
         <h3>User List</h3>
       </div>
-      <InputBox InputField={inputFieldCss} placeholder="Search User" />
-
-      {userList.map((item) =>
-        friend.includes(item.id + data.userdata.userInfo.uid) ||
-        friend.includes(data.userdata.userInfo.uid + item.id) ? (
-          <CommonSection
-            imgSrc="/assets/userimg.png"
-            title={item.displayName}
-            subTitle={item.email}
-            btnTitle="Friend"
-          />
-        ) : freq.includes(item.id + data.userdata.userInfo.uid) ||
-          freq.includes(data.userdata.userInfo.uid + item.id) ? (
-          <CommonSection
-            imgSrc="/assets/userimg.png"
-            title={item.displayName}
-            subTitle={item.email}
-            btnTitle="pending"
-          />
-        ) : (
-          <CommonSection
-            imgSrc="/assets/userimg.png"
-            title={item.displayName}
-            subTitle={item.email}
-            btnTitle="send Request"
-            onClick={() => handleFriendRequest(item)}
-          />
-        )
-      )}
+      <InputBox
+        onChange={handleSearch}
+        InputField={inputFieldCss}
+        placeholder="Search User"
+      />
+      {searchList.length > 0
+        ? searchList.map((item) =>
+            friend.includes(item.id + data.userdata.userInfo.uid) ||
+            friend.includes(data.userdata.userInfo.uid + item.id) ? (
+              <CommonSection
+                imgSrc="/assets/userimg.png"
+                title={item.displayName}
+                subTitle={item.email}
+                btnTitle="Friend"
+              />
+            ) : freq.includes(item.id + data.userdata.userInfo.uid) ||
+              freq.includes(data.userdata.userInfo.uid + item.id) ? (
+              <CommonSection
+                imgSrc="/assets/userimg.png"
+                title={item.displayName}
+                subTitle={item.email}
+                btnTitle="pending"
+              />
+            ) : (
+              <CommonSection
+                imgSrc="/assets/userimg.png"
+                title={item.displayName}
+                subTitle={item.email}
+                btnTitle="send Request"
+                onClick={() => handleFriendRequest(item)}
+              />
+            )
+          )
+        : userList.map((item) =>
+            friend.includes(item.id + data.userdata.userInfo.uid) ||
+            friend.includes(data.userdata.userInfo.uid + item.id) ? (
+              <CommonSection
+                imgSrc="/assets/userimg.png"
+                title={item.displayName}
+                subTitle={item.email}
+                btnTitle="Friend"
+              />
+            ) : freq.includes(item.id + data.userdata.userInfo.uid) ||
+              freq.includes(data.userdata.userInfo.uid + item.id) ? (
+              <CommonSection
+                imgSrc="/assets/userimg.png"
+                title={item.displayName}
+                subTitle={item.email}
+                btnTitle="pending"
+              />
+            ) : (
+              <CommonSection
+                imgSrc="/assets/userimg.png"
+                title={item.displayName}
+                subTitle={item.email}
+                btnTitle="send Request"
+                onClick={() => handleFriendRequest(item)}
+              />
+            )
+          )}
     </div>
   );
 };
@@ -98,10 +140,10 @@ const inputFieldCss = styled(TextField)({
   width: '100%',
   display: 'flex',
   fontSize: '30px',
-  marginBottom:'7%',
+  marginBottom: '7%',
   '& label': {
     opacity: '0.7',
-    fontSize:'12px',
+    fontSize: '12px',
     fontWeight: 400,
     color: '#11175D',
     fontFamily: 'Nunito, sans-serif',
@@ -114,7 +156,7 @@ const inputFieldCss = styled(TextField)({
   },
   '& .MuiOutlinedInput-root': {
     color: '#11175D',
-    height:'40px',
+    height: '40px',
     fontFamily: 'Nunito, sans-serif',
     borderRadius: '15px',
     '& fieldset': {

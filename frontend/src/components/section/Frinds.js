@@ -8,13 +8,16 @@ import {
   onValue,
   remove,
 } from 'firebase/database';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Alert from '@mui/material/Alert';
+import { activeChatUser } from '../../pages/slices/ActiveChatSlice';
 
 const Frinds = () => {
   const db = getDatabase();
   const [friends, setFriends] = useState([]);
   const data = useSelector((state) => state);
+  console.log(data.activeUser.activeChatUser);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const friendesRef = ref(db, 'friends');
@@ -50,6 +53,11 @@ const Frinds = () => {
           remove(ref(db, 'friends/' + item.id)).then(() => {});
         });
   };
+
+  const hadleActiveUser = (item) => {
+    dispatch(activeChatUser({ ...item, status: 'single' }));
+  };
+
   return (
     <div className="group_holder">
       <div className="up_title_style">
@@ -59,6 +67,7 @@ const Frinds = () => {
         friends.map((item) =>
           data.userdata.userInfo.uid === item.senderId ? (
             <CommonSection
+              dClick={() => hadleActiveUser(item)}
               imgSrc="/assets/userimg.png"
               title={item.receiverName}
               subTitle={item.date}
@@ -67,6 +76,7 @@ const Frinds = () => {
             />
           ) : (
             <CommonSection
+              dClick={() => hadleActiveUser(item)}
               imgSrc="/assets/userimg.png"
               title={item.senderName}
               subTitle="Hi Guys, Wassup!"

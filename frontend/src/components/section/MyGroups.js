@@ -79,10 +79,13 @@ const MyGroups = () => {
       });
       setGmlist(arr);
     });
-  }, []);
+  }, []); 
 
   const handleAcceptUser = (item) => {
+    console.log(item)
     set(push(ref(db, 'groupmembers')), {
+      adminId:item.adminId,
+      adminName:item.adminName,
       groupId: item.groupId,
       groupName: item.groupName,
       userId: item.userId,
@@ -156,26 +159,22 @@ const MyGroups = () => {
               Group Members
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-           
-                {gmlist.length > 0 ? (
-                  gmlist.map(
-                    (item) => 
-
-                      allgId.includes(item.groupId)&& (
-                           <CommonSection
-                             imgSrc="/assets/userimg.png"
-                             title={item.userName}
-                             subTitle={'Member'}
-                             btnTitle="Delete"
-                             style2={{ background: 'red' }}
-                           />
-                         )
-                    
-                  )
-                ) : (
-                  <p>you have no members</p>
+              {gmlist.length > 0 ? (
+                gmlist.map(
+                  (item) =>
+                    allgId.includes(item.groupId) && (
+                      <CommonSection
+                        imgSrc="/assets/userimg.png"
+                        title={item.userName}
+                        subTitle={'Member'}
+                        btnTitle="Delete"
+                        style2={{ background: 'red' }}
+                      />
+                    )
                 )
-           }
+              ) : (
+                <p>you have no members</p>
+              )}
             </Typography>
           </Box>
         </Modal>

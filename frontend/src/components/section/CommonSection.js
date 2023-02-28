@@ -1,11 +1,11 @@
 import React from 'react';
 
 const CommonSection = (
-  { imgSrc, imgAlt, title, subTitle, btnTitle, btnTitle2, onClick, onClick2, style, style2 },
+  { imgSrc, imgAlt, title, subTitle, btnTitle, btnTitle2, onClick, onClick2, style, style2, dClick },
   props
 ) => {
   return (
-    <div className="section_box">
+    <div onClick={dClick} className="section_box">
       <div className="title_box">
         <div className="img_style">
           <img src={imgSrc} alt={imgAlt} />

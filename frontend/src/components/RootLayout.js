@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Grid, Button } from '@mui/material';
 import Image from './Image';
 import {
@@ -95,7 +95,7 @@ const RootLayout = () => {
       navigate('/login');
     }
     setProfile(data.userdata.userInfo.photoURL);
-  }, [data, navigate,image]);
+  }, [data, navigate, image]);
 
   const handleLogOut = () => {
     signOut(auth).then(() => {
@@ -123,7 +123,7 @@ const RootLayout = () => {
                   <Image
                     className="upload_image"
                     onClick={handleOpen}
-                    imgsrc='assets/profile.png'
+                    imgsrc="assets/profile.png"
                     imgalt="profile_imgae"
                   />
                 )}
@@ -132,8 +132,12 @@ const RootLayout = () => {
                 <h5>{data.userdata.userInfo.displayName}</h5>
               </div>
               <div className="icon_holder">
-                <AiOutlineHome className="icon" />
-                <AiOutlineMessage className="icon" />
+                <Link to="/pechal">
+                  <AiOutlineHome className="icon" />
+                </Link>
+                <Link to="/pechal/message">
+                  <AiOutlineMessage className="icon" />
+                </Link>
                 <IoMdNotificationsOutline className="icon" />
                 <AiOutlineSetting className="icon" />
               </div>

@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import CommonSection from './CommonSection';
-import { Modal, styled, TextField, Typography, Button, Box } from '@mui/material';
+import {
+  Modal,
+  styled,
+  TextField,
+  Typography,
+  Button,
+  Box,
+} from '@mui/material';
 import InputBox from '../InputBox';
 import SignupButton from '../SignupButton';
-import { getDatabase, set, ref, push,onValue } from 'firebase/database';
-import {useSelector} from 'react-redux';
+import { getDatabase, set, ref, push, onValue } from 'firebase/database';
+import { useSelector } from 'react-redux';
 
 const style = {
   position: 'absolute',
@@ -22,45 +29,44 @@ const GroupSection = () => {
   const db = getDatabase();
   const [gname, setGname] = useState('');
   const [gtag, setGtag] = useState('');
-  const [glist, setGlist] = useState([])
+  const [glist, setGlist] = useState([]);
   const data = useSelector((state) => state);
-  
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleCreateGroup = () => {
     set(push(ref(db, 'groups')), {
-      groupName:gname,
-      groupTag:gtag,
-      adminId:data.userdata.userInfo.uid,
-      adminName:data.userdata.userInfo.displayName,
-    }).then(()=> {
-      setOpen(false)
+      groupName: gname,
+      groupTag: gtag,
+      adminId: data.userdata.userInfo.uid,
+      adminName: data.userdata.userInfo.displayName,
+    }).then(() => {
+      setOpen(false);
     });
   };
   useEffect(() => {
     const groupRef = ref(db, 'groups');
     onValue(groupRef, (snapshot) => {
-      const arr = []
+      const arr = [];
       snapshot.forEach((item) => {
-        if(data.userdata.userInfo.uid !== item.val().adminId){
-          arr.push({...item.val(), gid:item.key})
+        if (data.userdata.userInfo.uid !== item.val().adminId) {
+          arr.push({ ...item.val(), gid: item.key });
         }
-      })
-      setGlist(arr)
-    })
-  }, [])
+      });
+      setGlist(arr);
+    });
+  }, []);
   const handleGroupJoin = (item) => {
     set(push(ref(db, 'grouprequest')), {
-      groupId:item.gid,
-      groupName:item.groupName,
-      userId:data.userdata.userInfo.uid,
-      userName:data.userdata.userInfo.displayName
-    }).then(() => {
-      
-    })
-  }
+      adminId: item.adminId,
+      adminName: item.adminName,
+      groupId: item.gid,
+      groupName: item.groupName,
+      userId: data.userdata.userInfo.uid,
+      userName: data.userdata.userInfo.displayName,
+    }).then(() => {});
+  };
   return (
     <div className="group_holder">
       <div className="up_title_style">
@@ -68,14 +74,13 @@ const GroupSection = () => {
         <button onClick={handleOpen}>Create Gropup</button>
       </div>
       {glist.map((item) => (
-
-      <CommonSection
-        imgSrc="/assets/userimg.png"
-        title={item.groupName}
-        subTitle={item.adminName}
-        onClick={()=> handleGroupJoin(item)}
-        btnTitle="join"
-      />
+        <CommonSection
+          imgSrc="/assets/userimg.png"
+          title={item.groupName}
+          subTitle={item.adminName}
+          onClick={() => handleGroupJoin(item)}
+          btnTitle="join"
+        />
       ))}
       <div>
         <Modal
